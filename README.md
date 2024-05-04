@@ -117,8 +117,14 @@ $ k6 run benchmark-javalin.js
 
 running (0m30.0s), 00/10 VUs, 53526 complete and 0 interrupted iterations
 default ✓ [======================================] 10 VUs  30s
-
 ```
+
+Faster than [this one][spring] (9552), [this one too][javalin] (20688),
+[this][chi] (29358) and [this][koa] (7370) and only losing losing for
+[this one][fiber] (112398).
+
+Important to say, those numbers change a lot depending on the hardware: throw
+more cores and better ssd and spring version get better.
 
 ## Further reading
 
@@ -133,3 +139,8 @@ default ✓ [======================================] 10 VUs  30s
 [htmx]: https://htmx.org/
 [bld]: https://rife2.com/bld
 [benchmark]: https://github.com/sombriks/node-vs-kotlin-k6-benchmark
+[javalin]: https://github.com/sombriks/sample-htmx-javalin
+[spring]: https://github.com/sombriks/sample-htmx-spring
+[fiber]: https://github.com/sombriks/my-golang-handbook/tree/main/exercises/0015-rest-htmx
+[chi]: https://github.com/sombriks/sample-htmx-chi
+[koa]: https://github.com/sombriks/sample-htmx-koa
