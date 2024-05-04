@@ -13,4 +13,4 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - run: ./bld clean build test
+    - run: ./bld clean compile test
