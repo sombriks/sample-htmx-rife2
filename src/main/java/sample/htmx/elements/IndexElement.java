@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rife.engine.Context;
 import rife.engine.Element;
+import sample.htmx.elements.processor.TemplateProcessor;
 import sample.htmx.service.TodoService;
 
 public class IndexElement implements Element {
@@ -18,15 +19,9 @@ public class IndexElement implements Element {
     @Override
     public void process(Context c) throws Exception {
         LOG.info("index");
+        var todos = todoService.list(c.parameter("q",""));
         var template = c.template("index");
-        todoService.list(c.parameter("q","")).forEach(x -> {
-            template.appendBlock("todos", "todo");
-            template.setValue("id", x.id());
-            template.setValue("description", x.description());
-            template.setValue("ifTrue", x.done() ? "selected" : "");
-            template.setValue("ifFalse", !x.done() ? "selected" : "");
-        });
-
+        TemplateProcessor.populateList(template, todos);
         c.print(template);
     }
 }

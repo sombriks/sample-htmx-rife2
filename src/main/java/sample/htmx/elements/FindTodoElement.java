@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rife.engine.Context;
 import rife.engine.Element;
+import sample.htmx.model.Todo;
 import sample.htmx.service.TodoService;
 
 public class FindTodoElement implements Element {
@@ -19,8 +20,10 @@ public class FindTodoElement implements Element {
     @Override
     public void process(Context c) throws Exception {
         LOG.info("find");
+        Long id = Long.parseLong(c.pathInfo());
+        Todo todo = todoService.find(id);
         var template = c.template("todos/detail");
-        // fill template here
+        template.setValue("todo", todo.description());
         c.print(template);
     }
 }

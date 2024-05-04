@@ -10,20 +10,20 @@
     <tr>
         <td>
             <!--v id/-->
-            <input class="edit{{v id/}}" type="hidden" name="id{{v id/}}" value="{{v id/}}"/>
+            <input class="edit{{v id/}}" type="hidden" name="id" value="{{v id/}}"/>
         </td>
         <td>
-            <input class="edit{{v id/}}" type="text" name="description{{v id/}}" value="{{v description/}}"/>
+            <input class="edit{{v id/}}" type="text" name="description" value="{{v description/}}"/>
         </td>
         <td>
             <!-- TODO try to use checkboxes again -->
-            <select class="edit{{v id/}}" name="done{{v id/}}">
+            <select class="edit{{v id/}}" name="done">
                 <option {{v ifTrue/}}>true</option>
                 <option {{v ifFalse/}}>false</option>
             </select>
         </td>
         <td>
-            <button hx-put="/todos/{{todo.Id}}" hx-swap="outerHTML"
+            <button hx-put="/todos/{{v id/}}" hx-swap="outerHTML"
                     hx-target="#table" hx-include=".edit{{v id/}}">
                 Save
             </button>
