@@ -1,6 +1,6 @@
-# sample-htmx-rife2
+# [sample-htmx-rife2][repo]
 
-Sample rife2/htmx todo app
+Sample [rife2][rife2]/[htmx][htmx] todo app
 
 ## Requirements
 
@@ -31,6 +31,9 @@ cd sample-htmx-rife2
 
 ## Noteworthy
 
+- 
 
-
+[repo]: https://github.com/sombriks/sample-htmx-rife2
+[rife2]: https://rife2.com/
+[htmx]: https://htmx.org/
 [bld]: https://rife2.com/bld

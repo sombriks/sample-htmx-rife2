@@ -1,18 +1,32 @@
 package sample.htmx;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import rife.database.Datasource;
 import rife.engine.*;
+import sample.htmx.elements.*;
+import sample.htmx.service.TodoService;
 
 public class TodoappSite extends Site {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TodoappSite.class);
+
+    private final Datasource db = new Datasource("org.h2.Driver", "jdbc:h2:./todos", "sa", "", 5);
+    private final TodoService todoService = new TodoService(db);
+
     public void setup() {
-        var index = get("/", c -> c.print(c.template("index")));
-
-        var todos = get("/todos", c -> c.print(c.template("todos/list")));
-        var newTodo = post("/todos", c -> c.print(c.template("todos/list")));
-
-        var todo = get("/todos", c -> c.print(c.template("todos/detail")));
-        var updateTodo = put("/todos", c -> c.print(c.template("todos/list")));
-        var delTodo = delete("/todos", c -> c.print(c.template("todos/list")));
+        get("/", new IndexElement(todoService));
+        group("/todos", new Router(){
+            @Override
+            public void setup() {
+                get("", () -> new ListTodoElement(todoService));
+                post("", () -> new InsertTodoElement(todoService));
+                get("", PathInfoHandling.CAPTURE, () -> new FindTodoElement(todoService));
+                put("", PathInfoHandling.CAPTURE, () -> new UpdateTodoElement(todoService));
+                delete("", PathInfoHandling.CAPTURE, () -> new DeleteTodoElement(todoService));
+            }
+        });
+        LOG.info("Setting up site");
     }
 
     public static void main(String[] args) {

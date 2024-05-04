@@ -5,12 +5,29 @@
         <th>Done?</th>
         <th></th>
     </tr>
-    <!--b item-->
+    <!--v todos/-->
+    <!--b todo-->
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>
+            <!--v id/-->
+            <input class="edit{{v id/}}" type="hidden" name="id{{v id/}}" value="{{v id/}}"/>
+        </td>
+        <td>
+            <input class="edit{{v id/}}" type="text" name="description{{v id/}}" value="{{v description/}}"/>
+        </td>
+        <td>
+            <!-- TODO try to use checkboxes again -->
+            <select class="edit{{v id/}}" name="done{{v id/}}">
+                <option {{v ifTrue/}}>true</option>
+                <option {{v ifFalse/}}>false</option>
+            </select>
+        </td>
+        <td>
+            <button hx-put="/todos/{{todo.Id}}" hx-swap="outerHTML"
+                    hx-target="#table" hx-include=".edit{{v id/}}">
+                Save
+            </button>
+        </td>
     </tr>
     <!--/b-->
 </table>

@@ -8,10 +8,12 @@
     <SOURCES>
       <root url="file://$PROJECT_DIR$/lib/compile" />
       <root url="file://$PROJECT_DIR$/lib/provided" />
+      <root url="jar://$PROJECT_DIR$/lib/compile/rife2-1.7.3-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/compile/rife2-1.7.3-sources.jar!/" />
     </SOURCES>
     <jarDirectory url="file://$PROJECT_DIR$/lib/compile" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/lib/compile" recursive="false" type="SOURCES" />
     <jarDirectory url="file://$PROJECT_DIR$/lib/provided" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/compile" recursive="false" type="SOURCES" />
     <jarDirectory url="file://$PROJECT_DIR$/lib/provided" recursive="false" type="SOURCES" />
   </library>
 </component>
