@@ -11,12 +11,16 @@ public class TodoappSite extends Site {
 
     private static final Logger LOG = LoggerFactory.getLogger(TodoappSite.class);
 
-    private final Datasource db = new Datasource("org.h2.Driver", "jdbc:h2:./todos", "sa", "", 5);
-    private final TodoService todoService = new TodoService(db);
+    private final TodoService todoService;
+
+    public TodoappSite(TodoService todoService) {
+        this.todoService = todoService;
+        todoService.initDB();
+    }
 
     public void setup() {
         get("/", new IndexElement(todoService));
-        group("/todos", new Router(){
+        group("/todos", new Router() {
             @Override
             public void setup() {
                 get("", () -> new ListTodoElement(todoService));
@@ -30,8 +34,10 @@ public class TodoappSite extends Site {
     }
 
     public static void main(String[] args) {
+        Datasource db = new Datasource("org.h2.Driver", "jdbc:h2:./todos", "sa", "", 5);
         new Server()
-            .staticResourceBase("src/main/webapp")
-            .start(new TodoappSite());
+                .staticResourceBase("src/main/webapp")
+                .start(new TodoappSite(new TodoService(db)))
+        ;
     }
 }

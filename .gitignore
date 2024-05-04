@@ -54,3 +54,7 @@ atlassian-ide-plugin.xml
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+# h2 db
+todos.mv.db
+todos.trace.db

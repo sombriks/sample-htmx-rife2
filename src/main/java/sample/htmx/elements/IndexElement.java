@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rife.engine.Context;
 import rife.engine.Element;
-import sample.htmx.model.Todo;
 import sample.htmx.service.TodoService;
-
-import java.time.LocalDateTime;
 
 public class IndexElement implements Element {
 
