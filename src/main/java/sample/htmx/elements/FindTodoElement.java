@@ -23,7 +23,7 @@ public class FindTodoElement implements Element {
         Long id = Long.parseLong(c.pathInfo());
         Todo todo = todoService.find(id);
         var template = c.template("todos/detail");
-        template.setValue("todo", todo.description());
+        template.setValue("todo", todo.getDescription());
         c.print(template);
     }
 }

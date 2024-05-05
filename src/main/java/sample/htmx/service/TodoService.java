@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rife.database.Datasource;
 import rife.database.DbQueryManager;
-import rife.database.queries.*;
-import rife.engine.exceptions.RespondException;
+import rife.database.queries.Delete;
+import rife.database.queries.Insert;
+import rife.database.queries.Select;
+import rife.database.queries.Update;
 import sample.htmx.model.Todo;
 
 import java.time.Instant;
@@ -13,7 +15,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TodoService {
 
@@ -25,6 +26,10 @@ public class TodoService {
     public TodoService(Datasource ds) {
         this.ds = ds;
         manager = new DbQueryManager(ds);
+    }
+
+    public TodoService() {
+        this(new Datasource("org.h2.Driver", "jdbc:h2:./todos", "sa", "", 5));
     }
 
     public void initDB() {
@@ -77,8 +82,8 @@ public class TodoService {
         LOG.info("insert todo={}", todo);
         var insert = new Insert(ds)
                 .into("todos")
-                .field("description", todo.description())
-                .field("done", todo.done());
+                .field("description", todo.getDescription())
+                .field("done", todo.getDone());
         return manager.executeUpdate(insert);
     }
 
@@ -86,8 +91,8 @@ public class TodoService {
         LOG.info("update id={}, todo={}", id, todo);
         var update = new Update(ds)
                 .table("todos")
-                .field("description", todo.description())
-                .field("done", todo.done())
+                .field("description", todo.getDescription())
+                .field("done", todo.getDone())
                 .field("updated", LocalDateTime.now())
                 .where("id", "=", id);
         return manager.executeUpdate(update);

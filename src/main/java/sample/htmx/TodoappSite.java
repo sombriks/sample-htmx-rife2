@@ -2,8 +2,10 @@ package sample.htmx;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rife.database.Datasource;
-import rife.engine.*;
+import rife.engine.PathInfoHandling;
+import rife.engine.Router;
+import rife.engine.Server;
+import rife.engine.Site;
 import sample.htmx.elements.*;
 import sample.htmx.service.TodoService;
 
@@ -16,6 +18,7 @@ public class TodoappSite extends Site {
     public TodoappSite(TodoService todoService) {
         this.todoService = todoService;
         todoService.initDB();
+        LOG.info("open to business http://localhost:8080");
     }
 
     public void setup() {
@@ -34,10 +37,9 @@ public class TodoappSite extends Site {
     }
 
     public static void main(String[] args) {
-        Datasource db = new Datasource("org.h2.Driver", "jdbc:h2:./todos", "sa", "", 5);
         new Server()
                 .staticResourceBase("src/main/webapp")
-                .start(new TodoappSite(new TodoService(db)))
+                .start(new TodoappSite(new TodoService()))
         ;
     }
 }

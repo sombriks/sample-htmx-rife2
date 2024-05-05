@@ -9,10 +9,10 @@ public class TemplateProcessor {
     public static void populateList(Template template, List<Todo> todos) {
         todos.forEach(todo -> {
             template.appendBlock("todos", "todo");
-            template.setValue("id", todo.id());
-            template.setValue("description", todo.description());
-            template.setValue("ifTrue", todo.done() ? "selected" : "");
-            template.setValue("ifFalse", !todo.done() ? "selected" : "");
+            template.setValue("id", todo.getId());
+            template.setValue("description", todo.getDescription());
+            template.setValue("ifTrue", todo.getDone() ? "selected" : "");
+            template.setValue("ifFalse", !todo.getDone() ? "selected" : "");
         });
     }
 }
