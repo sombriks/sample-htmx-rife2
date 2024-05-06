@@ -1,6 +1,6 @@
 # [sample-htmx-rife2][repo]
 
-Sample [rife2][rife2]/[htmx][htmx] todo app
+Sample [rife2][rife2]/[htmx][htmx] todos app
 
 ## Requirements
 

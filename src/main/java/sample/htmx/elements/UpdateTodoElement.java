@@ -9,7 +9,7 @@ import rife.engine.annotations.ParametersBean;
 import rife.engine.annotations.PathInfo;
 import rife.engine.annotations.Property;
 import sample.htmx.elements.processor.TemplateProcessor;
-import sample.htmx.model.Todo;
+import sample.htmx.model.Todos;
 import sample.htmx.service.TodoService;
 
 public class UpdateTodoElement implements Element {
@@ -23,10 +23,10 @@ public class UpdateTodoElement implements Element {
     private String q = "";
 
     @PathInfo
-    private Long id;
+    private Integer id;
 
     @ParametersBean
-    private Todo todo;
+    private Todos todos;
 
     @Override
     public void process(Context c) throws Exception {
@@ -38,7 +38,7 @@ public class UpdateTodoElement implements Element {
 //                null,
 //                null
 //        );
-        todoService.update(id, todo);
+        todoService.update(id, todos);
         var todos = todoService.list(q);
         var template = c.template("todos/list");
         TemplateProcessor.populateList(template, todos);

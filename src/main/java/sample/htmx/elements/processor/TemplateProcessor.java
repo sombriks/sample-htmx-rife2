@@ -1,12 +1,12 @@
 package sample.htmx.elements.processor;
 
 import rife.template.Template;
-import sample.htmx.model.Todo;
+import sample.htmx.model.Todos;
 
 import java.util.List;
 
 public class TemplateProcessor {
-    public static void populateList(Template template, List<Todo> todos) {
+    public static void populateList(Template template, List<Todos> todos) {
         todos.forEach(todo -> {
             template.setValue("id", todo.getId());
             template.setValue("description", todo.getDescription());

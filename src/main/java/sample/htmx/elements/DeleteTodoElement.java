@@ -18,12 +18,12 @@ public class DeleteTodoElement implements Element {
     private TodoService todoService;
 
     @PathInfo
-    private Long id;
+    private Integer id;
 
     @Override
     public void process(Context c) throws Exception {
         LOG.info("delete");
-        var result = todoService.delete(id);
+        todoService.delete(id);
         var todos = todoService.list(c.parameter("q",""));
         var template = c.template("todos/list");
         TemplateProcessor.populateList(template, todos);

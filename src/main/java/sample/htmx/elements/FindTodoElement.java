@@ -6,7 +6,7 @@ import rife.engine.Context;
 import rife.engine.Element;
 import rife.engine.annotations.PathInfo;
 import rife.engine.annotations.Property;
-import sample.htmx.model.Todo;
+import sample.htmx.model.Todos;
 import sample.htmx.service.TodoService;
 
 public class FindTodoElement implements Element {
@@ -17,14 +17,14 @@ public class FindTodoElement implements Element {
     private TodoService todoService;
 
     @PathInfo
-    private Long id;
+    private Integer id;
 
     @Override
     public void process(Context c) throws Exception {
         LOG.info("find");
-        Todo todo = todoService.find(id);
+        Todos todos = todoService.find(id);
         var template = c.template("todos/detail");
-        template.setValue("todo", todo.getDescription());
+        template.setValue("todo", todos.getDescription());
         c.print(template);
     }
 }

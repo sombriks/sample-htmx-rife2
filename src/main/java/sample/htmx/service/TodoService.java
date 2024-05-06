@@ -4,16 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rife.database.Datasource;
 import rife.database.DbQueryManager;
-import rife.database.queries.Delete;
 import rife.database.queries.Insert;
 import rife.database.queries.Select;
 import rife.database.queries.Update;
-import sample.htmx.model.Todo;
+import rife.database.querymanagers.generic.GenericQueryManager;
+import rife.database.querymanagers.generic.GenericQueryManagerFactory;
+import rife.database.querymanagers.generic.RestoreQuery;
+import sample.htmx.model.Todos;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TodoService {
@@ -21,11 +20,13 @@ public class TodoService {
     private static final Logger LOG = LoggerFactory.getLogger(TodoService.class);
 
     private final Datasource ds;
+    private final GenericQueryManager<Todos> queryManager;
     private final DbQueryManager manager;
 
     public TodoService(Datasource ds) {
-        this.ds = ds;
+        queryManager = GenericQueryManagerFactory.instance(ds, Todos.class);
         manager = new DbQueryManager(ds);
+        this.ds = ds;
     }
 
     public TodoService() {
@@ -45,64 +46,53 @@ public class TodoService {
         LOG.info("todos table created");
     }
 
-    public List<Todo> list(String q) throws Exception {
+    public List<Todos> list(String q) throws Exception {
         LOG.info("list q={}", q);
         var select = new Select(ds)
                 .from("todos")
-                .where("lower(description)", "like", String.format("%s%s%s", "%", q, "%"));
-        var todos = new ArrayList<Todo>();
-        manager.executeFetchAll(select, rp -> {
-            todos.add(new Todo(
-                    rp.getLong("id"),
-                    rp.getString("description"),
-                    rp.getBoolean("done"),
-                    Instant.ofEpochMilli(rp.getDate("created").getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                    Instant.ofEpochMilli(rp.getDate("updated").getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime()
-            ));
-        });
-        return todos;
+                .where("lower(description)", "like", //
+                        String.format("%s%s%s", "%", q, "%")); // FIXME safe?
+        return queryManager.restore(new RestoreQuery(select));
     }
 
-    public Todo find(Long id) throws Exception {
+    public Todos find(Integer id) throws Exception {
         LOG.info("list id={}", id);
-        var select = new Select(ds).from("todos").where("id", "=", id);
-        var todos = new ArrayList<Todo>();
-        var result = manager.executeFetchFirst(select, rp -> todos.add(new Todo(
-                rp.getLong("id"),
-                rp.getString("description"),
-                rp.getBoolean("done"),
-                Instant.ofEpochMilli(rp.getDate("created").getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                Instant.ofEpochMilli(rp.getDate("updated").getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime()
-        )));
-        if (result) return todos.get(0);
-        throw new Exception("not found");
+        var select = new Select(ds)
+                .from("todos")
+                .where("id", "=", id);
+        var result = queryManager.restore(new RestoreQuery(select));
+        if(result.isEmpty())
+            throw new Exception("not found");
+        return result.get(0);
     }
 
-    public int insert(Todo todo) {
-        LOG.info("insert todo={}", todo);
+    public int insert(Todos todos) {
+        LOG.info("insert todo={}", todos);
         var insert = new Insert(ds)
                 .into("todos")
-                .field("description", todo.getDescription())
-                .field("done", todo.getDone());
+                .field("description", todos.getDescription())
+                .field("done", todos.getDone());
         return manager.executeUpdate(insert);
     }
 
-    public int update(Long id, Todo todo) {
-        LOG.info("update id={}, todo={}", id, todo);
+    public int update(Integer id, Todos todos) {
+        LOG.info("update id={}, todo={}", id, todos);
         var update = new Update(ds)
                 .table("todos")
-                .field("description", todo.getDescription())
-                .field("done", todo.getDone())
+                .field("description", todos.getDescription())
+                .field("done", todos.getDone())
                 .field("updated", LocalDateTime.now())
                 .where("id", "=", id);
         return manager.executeUpdate(update);
+//        return queryManager.update(todos);
     }
 
-    public int delete(Long id) {
+    public boolean delete(Integer id) {
         LOG.info("delete id={}", id);
-        var delete = new Delete(ds)
-                .from("todos")
-                .where("id", "=", id);
-        return manager.executeUpdate(delete);
+//        var delete = new Delete(ds)
+//                .from("todos")
+//                .where("id", "=", id);
+//        return manager.executeUpdate(delete);
+        return queryManager.delete(id);
     }
 }

@@ -3,21 +3,21 @@ package sample.htmx.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Todo {
+public class Todos {
 
-    private Long id;
+    private int id;
     private String description;
-    private Boolean done;
+    private boolean done;
     private LocalDateTime created;
     private LocalDateTime updated;
 
-    public Todo() {
+    public Todos() {
     }
 
-    public Todo(
-            Long id,
+    public Todos(
+            int id,
             String description,
-            Boolean done,
+            boolean done,
             LocalDateTime created,
             LocalDateTime updated
     ) {
@@ -28,11 +28,11 @@ public class Todo {
         this.updated = updated;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -44,11 +44,11 @@ public class Todo {
         this.description = description;
     }
 
-    public Boolean getDone() {
+    public boolean getDone() {
         return done;
     }
 
-    public void setDone(Boolean done) {
+    public void setDone(boolean done) {
         this.done = done;
     }
 
@@ -72,8 +72,8 @@ public class Todo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Todo todo = (Todo) o;
-        return Objects.equals(id, todo.id) && Objects.equals(description, todo.description) && Objects.equals(done, todo.done) && Objects.equals(created, todo.created) && Objects.equals(updated, todo.updated);
+        Todos todos = (Todos) o;
+        return Objects.equals(id, todos.id) && Objects.equals(description, todos.description) && Objects.equals(done, todos.done) && Objects.equals(created, todos.created) && Objects.equals(updated, todos.updated);
     }
 
     @Override

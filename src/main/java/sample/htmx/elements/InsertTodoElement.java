@@ -8,7 +8,7 @@ import rife.engine.annotations.Parameter;
 import rife.engine.annotations.ParametersBean;
 import rife.engine.annotations.Property;
 import sample.htmx.elements.processor.TemplateProcessor;
-import sample.htmx.model.Todo;
+import sample.htmx.model.Todos;
 import sample.htmx.service.TodoService;
 
 public class InsertTodoElement implements Element {
@@ -22,12 +22,12 @@ public class InsertTodoElement implements Element {
     private String q = "";
 
     @ParametersBean
-    private Todo todo;
+    private Todos todos;
 
     @Override
     public void process(Context c) throws Exception {
         LOG.info("insert");
-        todoService.insert(todo);
+        todoService.insert(todos);
         var todos = todoService.list(q);
         var template = c.template("todos/list");
         TemplateProcessor.populateList(template, todos);
