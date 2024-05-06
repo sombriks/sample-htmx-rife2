@@ -16,21 +16,22 @@ public class TodoappSite extends Site {
     private final TodoService todoService;
 
     public TodoappSite(TodoService todoService) {
+        LOG.info("open to business http://localhost:8080");
+        properties().put("todoService", todoService);
         this.todoService = todoService;
         todoService.initDB();
-        LOG.info("open to business http://localhost:8080");
     }
 
     public void setup() {
-        get("/", new IndexElement(todoService));
+        get("/", IndexElement.class);
         group("/todos", new Router() {
             @Override
             public void setup() {
-                get("", () -> new ListTodoElement(todoService));
-                post("", () -> new InsertTodoElement(todoService));
-                get("", PathInfoHandling.CAPTURE, () -> new FindTodoElement(todoService));
-                put("", PathInfoHandling.CAPTURE, () -> new UpdateTodoElement(todoService));
-                delete("", PathInfoHandling.CAPTURE, () -> new DeleteTodoElement(todoService));
+                get("", ListTodoElement.class);
+                post("", InsertTodoElement.class);
+                get("", PathInfoHandling.CAPTURE, FindTodoElement.class);
+                put("", PathInfoHandling.CAPTURE, UpdateTodoElement.class);
+                delete("", PathInfoHandling.CAPTURE, DeleteTodoElement.class);
             }
         });
         LOG.info("Setting up site");
