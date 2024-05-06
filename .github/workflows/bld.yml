@@ -7,17 +7,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    - uses: actions/cache@v4
-      with:
-        path: lib
-        key: bld-${{ hashFiles('src/bld/java/**') }}
-      id: cache
-    - if: steps.cache.outputs.cache-hit != 'true'
-      run: ./bld clean download
-    - run: ./bld compile test
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - id: cache
+        uses: actions/cache@v4
+        with:
+          path: lib
+          key: bld-${{ hashFiles('src/bld/java/**') }}
+      - if: steps.cache.outputs.cache-hit != 'true'
+        run: ./bld clean download
+      - run: ./bld compile test
