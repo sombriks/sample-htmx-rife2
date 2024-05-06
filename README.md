@@ -36,19 +36,53 @@ java -jar build/dist/todoapp-0.1.0-uber.jar
 ./bld clean download compile test
 ```
 
+you can perform a few requests too:
+
+Select
+
+```bash
+curl localhost:8080/todos?q=a
+```
+
+Find:
+
+```bash
+curl localhost:8080/todos/3
+```
+
+Insert: (look! no json!)
+
+```bash
+curl -X POST -d 'description=wash the cat' localhost:8080/todos
+```
+
+Update:
+
+```bash
+curl -X PUT -d 'description=wash the cat&done=true' localhost:8080/todos/4
+```
+
+Delete:
+
+```bash
+curl -X DELETE localhost:8080/todos/5
+```
+
 ## Noteworthy
 
 - Rife2 is quite complete when compared to other api frameworks, in java and
   other languages/platforms out there.
 - The framework it's quite opinionated, and i am still trying to figure out the 
   best idiom to perform things.
-- Bld is fantastic, fastest java build i've seen so far.
+- Bld is fantastic, fastest, cleanest java build i've seen so far.
 - Like previous experiments using htmx, simplicity is promising but looking
   through several implementations of the "same thing"(TM), proper template
   construction needs a shift from the component-ish to a pipeline-ish approach.
   distinct operations might end up having to deliver similar output and endpoint
   terminators should be capable of composite operations to deliver final state
   properly built for the requester scenario.
+- [Hierarchical Properties][hierarchical-properties] and fields injection makes
+  things even cleaner, [see this][update-element] for reference.
 
 ## Small [k6][benchmark] benchmark:
 
@@ -138,6 +172,8 @@ more cores and better ssd and spring version get better.
 [rife2]: https://rife2.com/
 [htmx]: https://htmx.org/
 [bld]: https://rife2.com/bld
+[hierarchical-properties]: https://github.com/rife2/rife2/wiki/Hierarchical-Properties#property-field-injection
+[update-element]: src/main/java/sample/htmx/elements/UpdateTodoElement.java
 [benchmark]: https://github.com/sombriks/node-vs-kotlin-k6-benchmark
 [javalin]: https://github.com/sombriks/sample-htmx-javalin
 [spring]: https://github.com/sombriks/sample-htmx-spring
